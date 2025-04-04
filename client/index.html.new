@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Performance optimization: Critical CSS inline -->
+    <style>
+      /* Critical rendering path CSS */
+      :root{--font-inter:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";--font-merriweather:Georgia,Cambria,"Times New Roman",Times,serif;}
+      body{margin:0;padding:0;font-family:var(--font-inter);background-color:#f9fafb;color:#111827;text-rendering:optimizeSpeed;}
+      .critical-loader{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background-color:#f9fafb;z-index:9999;transition:opacity 0.5s ease-out,visibility 0.5s;}
+      .critical-spinner{width:40px;height:40px;border:4px solid rgba(15,42,83,0.2);border-radius:50%;border-top-color:#0f2a53;animation:spinner 0.8s linear infinite;}
+      @keyframes spinner{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+    </style>
+    
+    <!-- Primary Meta Tags -->
+    <title>Pearson Specter | Top Corporate Law Firm</title>
+    <meta name="description" content="Pearson Specter is a premier law firm specializing in corporate law, personal injury, family law, and estate planning. Schedule a consultation today." />
+    <meta name="author" content="Pearson Specter Law Firm" />
+    
+    <!-- SEO meta tags -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="keywords" content="law firm, corporate law, personal injury, family law, estate planning, attorneys, legal services, elder law, mergers and acquisitions, litigation, business law" />
+    <link rel="canonical" href="https://pearsonspecter.law" />
+    
+    <!-- Structured Data - LocalBusiness -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LegalService",
+        "name": "Pearson Specter Law Firm",
+        "image": "https://pearsonspecter.law/logo.svg",
+        "url": "https://pearsonspecter.law",
+        "telephone": "+1-800-123-4567",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "601 E 57th St",
+          "addressLocality": "New York",
+          "addressRegion": "NY",
+          "postalCode": "10022",
+          "addressCountry": "US"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 40.7605,
+          "longitude": -73.9695
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "17:00"
+        },
+        "sameAs": [
+          "https://www.facebook.com/pearsonspecter",
+          "https://www.linkedin.com/company/pearson-specter",
+          "https://twitter.com/pearsonspecter"
+        ],
+        "priceRange": "$$$",
+        "areaServed": ["New York City", "Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Legal Services",
+          "itemListElement": [
+            {
+              "@type": "OfferCatalog",
+              "name": "Corporate Law Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Mergers and Acquisitions"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Corporate Litigation"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Personal Injury Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Auto Accident Claims"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Workplace Injuries"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    </script>
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pearson Specter | Top Corporate Law Firm" />
+    <meta property="og:description" content="Trusted legal representation for corporate law, personal injury, family law, and estate planning." />
+    <meta property="og:url" content="https://pearsonspecter.law" />
+    <meta property="og:site_name" content="Pearson Specter Law" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pearson Specter | Top Corporate Law Firm" />
+    <meta name="twitter:description" content="Trusted legal representation for corporate law, personal injury, family law, and estate planning." />
+    
+    <!-- Font preloading for performance -->
+    <link rel="preload" as="font" href="/fonts/inter-regular.woff2" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="/fonts/merriweather-bold.woff2" type="font/woff2" crossorigin="anonymous" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    
+    <!-- Mobile theme -->
+    <meta name="theme-color" content="#0f2a53" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Advanced Cache control -->
+    <meta http-equiv="Cache-Control" content="max-age=86400, must-revalidate" />
+    <meta http-equiv="Expires" content="86400" />
+    
+    <!-- Performance metrics -->
+    <script>
+      // Performance monitoring
+      window.perfMetrics = {
+        navigationStart: performance.now(),
+        fcpTime: 0,
+        loadTime: 0
+      };
+      
+      // First Contentful Paint measurement
+      const paintObserver = new PerformanceObserver((entries) => {
+        for (const entry of entries.getEntries()) {
+          if (entry.name === 'first-contentful-paint') {
+            window.perfMetrics.fcpTime = entry.startTime;
+            console.log(`[Performance] FCP: ${Math.round(entry.startTime)}ms`);
+          }
+        }
+      });
+      paintObserver.observe({type: 'paint', buffered: true});
+      
+      // Remove loader when content is ready
+      window.addEventListener('load', () => {
+        window.perfMetrics.loadTime = performance.now() - window.perfMetrics.navigationStart;
+        console.log(`[Performance] Page load: ${Math.round(window.perfMetrics.loadTime)}ms`);
+        
+        const loader = document.querySelector('.critical-loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 500);
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Critical loader shown while the page loads -->
+    <div class="critical-loader">
+      <div class="critical-spinner"></div>
+    </div>
+    
+    <!-- Application root -->
+    <div id="root"></div>
+    
+    <!-- No-JavaScript fallback -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: sans-serif;">
+        <h1>Please Enable JavaScript</h1>
+        <p>This website requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
+        <p>Contact us at: +1-800-123-4567</p>
+      </div>
+    </noscript>
+    
+    <!-- Main application script with module/nomodule pattern for better compatibility -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,454 @@
+/* 
+ * Advanced Font Loading Optimization:
+ * Using system font stack as fallback
+ * Preloaded font files in HTML head (see index.html)
+ * Self-hosted font files to eliminate external requests
+ * Subset fonts to only include required characters
+ */
+
+/* Font Face declarations with optimized size and loading */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap; /* Show text immediately with fallback, swap when loaded */
+  src: local("Inter"), url("/fonts/inter-regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Inter Medium"), url("/fonts/inter-medium.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local("Inter SemiBold"),
+    url("/fonts/inter-semibold.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Inter Bold"), url("/fonts/inter-bold.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Merriweather"),
+    url("/fonts/merriweather-regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Merriweather Bold"),
+    url("/fonts/merriweather-bold.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: local("Merriweather Black"),
+    url("/fonts/merriweather-black.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+/* Tailwind base directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root element optimizations */
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%; /* Prevent auto-zooming on form inputs */
+  touch-action: manipulation; /* Remove delay on mobile clicks */
+  -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  accent-color: theme("colors.gold.500"); /* Default accent color for inputs */
+}
+
+/* Global CSS variables */
+:root {
+  --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-merriweather: "Merriweather", Georgia, Cambria, "Times New Roman",
+    Times, serif;
+
+  /* Animation speed constants for easy global adjustment */
+  --animation-fast: 150ms;
+  --animation-normal: 250ms;
+  --animation-slow: 400ms;
+
+  /* Performance optimization - paint context isolation */
+  --isolation-context: isolate;
+}
+
+/* form errors */
+@layer components {
+  /* Your existing components */
+
+  /* Form error styling */
+  .form-error {
+    color: #dc2626; /* Tailwind's red-600 */
+    font-weight: 500;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    /* Contain all repaint operations to improve rendering performance */
+    will-change: auto;
+  }
+
+  body {
+    @apply font-sans antialiased bg-gray-50 text-gray-900;
+    overscroll-behavior-y: none; /* Prevent browser pull-to-refresh */
+    text-rendering: optimizeSpeed; /* Prioritize render speed */
+    font-synthesis: none; /* Prevent synthetic font variants */
+    /* Optimize text display for legibility */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Performance-focused heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-merriweather font-bold text-navy-500;
+    text-wrap: balance;
+    /* Prevent layout shifts for text */
+    text-size-adjust: 100%;
+  }
+
+  /* Performance optimization - use content-visibility for offscreen content */
+  section {
+    content-visibility: auto; /* Skip offscreen rendering */
+    contain-intrinsic-size: 0 500px; /* Estimated size to prevent layout shifts */
+    contain: layout style paint; /* Contains repaints within the element */
+    isolation: var(
+      --isolation-context
+    ); /* Create stacking context for better performance */
+  }
+
+  /* Optimize image performance and loading */
+  img {
+    loading: lazy; /* Native lazy loading */
+    decoding: async; /* Async image decoding */
+    /* Force GPU acceleration for image scaling */
+    transform: translateZ(0);
+    /* Only animate opacity for better performance */
+    transition-property: opacity;
+    transition-duration: var(--animation-normal);
+    /* Prevent cumulative layout shifts */
+    aspect-ratio: attr(width) / attr(height);
+  }
+
+  /* Aspect ratio container for layout shift prevention */
+  .img-container {
+    @apply relative overflow-hidden;
+    aspect-ratio: attr(data-ratio);
+    /* Use composited properties only for better performance */
+    contain: strict;
+  }
+
+  /* Accessibility - reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus accessibility improvements */
+  .js-focus-visible :focus:not(.focus-visible) {
+    outline: none;
+  }
+
+  .focus-visible {
+    @apply outline-2 outline-gold-500 outline-offset-2;
+  }
+}
+
+@layer components {
+  /* Font utilities */
+  .font-merriweather {
+    font-family: var(--font-merriweather);
+  }
+
+  /* Brand gradients with optimized rendering */
+  .suits-gradient {
+    @apply bg-gradient-to-r from-navy-900 to-navy-950;
+    /* Use transform for hardware acceleration */
+    transform: translateZ(0);
+  }
+
+  .suits-text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-400 to-gold-600;
+    /* Create stacking context for hardware acceleration */
+    isolation: isolate;
+    /* Force GPU rendering */
+    transform: translateZ(0);
+  }
+
+  /* Optimized button styles */
+  .suits-button {
+    @apply bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 px-6 rounded-none;
+    /* Only animate properties that don't cause layout recalculation */
+    transition-property: background-color, transform, box-shadow;
+    transition-duration: var(--animation-fast);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hardware acceleration for hover effects */
+    transform: translateZ(0);
+    /* Prevent paint during state changes */
+    contain: paint;
+  }
+
+  .suits-button-secondary {
+    @apply border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white font-bold py-3 px-6 rounded-none;
+    /* Only animate properties that don't cause layout recalculation */
+    transition-property: background-color, color, transform, box-shadow;
+    transition-duration: var(--animation-fast);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hardware acceleration for hover effects */
+    transform: translateZ(0);
+    /* Prevent paint during state changes */
+    contain: paint;
+  }
+
+  .suits-card {
+    @apply bg-white border-t-4 border-navy-800 shadow-md p-6;
+    /* Force GPU rendering for shadows and borders */
+    transform: translateZ(0);
+    /* Contain paint operations within the card */
+    contain: layout paint style;
+  }
+
+  .suits-divider {
+    @apply h-0.5 w-24 bg-gold-500 my-4;
+    /* Optimize paint performance */
+    contain: strict;
+  }
+
+  /* Highly optimized animation utilities */
+  .animate-in {
+    animation-duration: var(--animation-normal);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    /* Only activate GPU for properties that will change */
+    will-change: transform, opacity;
+    /* Prevent layout shifts and repaints */
+    contain: content;
+    /* Force GPU rendering */
+    transform: translateZ(0);
+    /* Create a new composite layer */
+    isolation: isolate;
+  }
+
+  .slide-in-from-right {
+    animation-name: slideInFromRight;
+    /* Prevent layout shifts */
+    contain: layout;
+    /* Prevent flickering */
+    backface-visibility: hidden;
+    /* Smooth edges for animation */
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+    animation-duration: var(--animation-fast);
+    /* Prevent layout shifts */
+    contain: layout;
+    /* Create a compositing layer */
+    will-change: opacity, transform;
+    /* Force GPU rendering */
+    transform: translateZ(0);
+  }
+
+  /* Highly optimized intersection observer animations */
+  .reveal-on-scroll {
+    opacity: 0;
+    /* Only animate transform and opacity for best performance */
+    transition: opacity var(--animation-normal) cubic-bezier(0.4, 0, 0.2, 1),
+      transform var(--animation-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(20px);
+    transition-delay: 0ms;
+    /* Create compositing layer only for these properties */
+    will-change: opacity, transform;
+    /* Prevent layout shifts */
+    contain: paint layout;
+    /* Force GPU rendering */
+    transform-style: preserve-3d;
+  }
+
+  .reveal-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Performance-optimized animation delays */
+  .delay-100 {
+    transition-delay: 100ms;
+  }
+  .delay-200 {
+    transition-delay: 200ms;
+  }
+  .delay-300 {
+    transition-delay: 300ms;
+  }
+
+  /* Accessibility - disable animations when preferred */
+  @media (prefers-reduced-motion: reduce), (max-width: 640px) {
+    .animate-in,
+    .slide-in-from-right,
+    .fade-in,
+    .reveal-on-scroll {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+      will-change: auto !important;
+    }
+  }
+
+  /* Optimized keyframes using only transform and opacity */
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Performance-optimized button styles */
+  .navy-button {
+    @apply bg-navy-800 hover:bg-navy-700 text-white;
+    /* Only transition colors for better performance */
+    transition-property: background-color;
+    transition-duration: var(--animation-fast);
+    /* Force GPU rendering */
+    transform: translateZ(0);
+  }
+
+  .gold-button {
+    @apply bg-gold-500 hover:bg-gold-600 text-navy-950;
+    /* Only transition colors for better performance */
+    transition-property: background-color;
+    transition-duration: var(--animation-fast);
+    /* Force GPU rendering */
+    transform: translateZ(0);
+  }
+
+  /* Performance-optimized carousel */
+  .position-override {
+    position: relative !important;
+    transform: none !important;
+    margin: 0 0.5rem;
+    /* Prevent layout shifts */
+    contain: layout;
+  }
+
+  /* Performance-optimized card animations */
+  .testimonial-card {
+    @apply bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-navy-800;
+    /* Only animate transform and box-shadow for performance */
+    transition-property: transform, box-shadow, border-color;
+    transition-duration: var(--animation-normal);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    /* Prevent layout shifts */
+    contain: layout paint;
+    /* Force GPU rendering */
+    transform: translateZ(0);
+  }
+
+  .testimonial-card:hover {
+    @apply shadow-xl border-gold-500;
+    transform: translateY(-5px) translateZ(0);
+  }
+
+  /* Performance-optimized victory cards */
+  .victory-card {
+    @apply bg-navy-800 p-6 sm:p-8 rounded shadow-xl border-l-4 border-gold-500;
+    /* Only animate transform and background-color for performance */
+    transition-property: transform, background-color;
+    transition-duration: var(--animation-normal);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    /* Prevent layout shifts */
+    contain: layout paint;
+    /* Force GPU rendering */
+    transform: translateZ(0);
+  }
+
+  .victory-card:hover {
+    @apply bg-navy-700;
+    transform: translateY(-3px) translateZ(0);
+  }
+
+  /* Prevent layout shifts for content blocks */
+  .content-block {
+    contain-intrinsic-size: auto;
+    contain: layout style;
+  }
+}

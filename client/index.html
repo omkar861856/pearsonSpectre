@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- High Priority Resource Hints -->
+    <link rel="preconnect" href="/" crossorigin />
+    <link rel="dns-prefetch" href="/" />
+
+    <!-- Extremely High Priority: Server Push Critical CSS -->
+    <style>
+      /* Ultra-optimized critical rendering path CSS */
+      :root {
+        --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+        --navy-900: #0f2a53;
+        --navy-800: #1a365d;
+        --navy-700: #2a4a73;
+        --gray-50: #f9fafb;
+        --gray-900: #111827;
+      }
+      html {
+        scrollbar-width: thin;
+        scrollbar-color: var(--navy-800) var(--gray-50);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-sans);
+        background-color: var(--gray-50);
+        color: var(--gray-900);
+        text-rendering: optimizeSpeed;
+        -webkit-font-smoothing: antialiased;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-serif);
+        color: var(--navy-900);
+        font-weight: 700;
+      }
+      .shell {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .hero {
+        background: linear-gradient(to right, var(--navy-900), var(--navy-800));
+        color: #fff;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .critical-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--gray-50);
+        z-index: 9999;
+        transition: opacity 0.3s;
+      }
+      .critical-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(15, 42, 83, 0.1);
+        border-radius: 50%;
+        border-top-color: var(--navy-900);
+        animation: s 0.6s linear infinite;
+      }
+      @keyframes s {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      header {
+        background-color: var(--navy-900);
+        color: #fff;
+        padding: 0.75rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      header nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #fff;
+        text-decoration: none;
+      }
+      .phone {
+        color: #fff;
+        font-weight: 600;
+        margin-left: auto;
+      }
+      .button {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: var(--navy-800);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+      main {
+        flex: 1;
+      }
+      @media (prefers-reduced-motion) {
+        * {
+          animation-duration: 0.001s !important;
+          transition-duration: 0.001s !important;
+        }
+      }
+    </style>
+
+    <!-- Preload the most critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link
+      rel="preload"
+      as="font"
+      href="/fonts/inter-regular.woff2"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      href="/fonts/merriweather-bold.woff2"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Primary Meta Tags -->
+    <title>Pearson Specter | Top Corporate Law Firm</title>
+    <meta
+      name="description"
+      content="Pearson Specter is a premier law firm specializing in corporate law, personal injury, family law, and estate planning. Schedule a consultation today."
+    />
+    <meta name="author" content="Pearson Specter Law Firm" />
+
+    <!-- SEO meta tags -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta
+      name="keywords"
+      content="law firm, corporate law, personal injury, family law, estate planning, attorneys, legal services, elder law, mergers and acquisitions, litigation, business law"
+    />
+    <link rel="canonical" href="https://pearsonspecter.law" />
+
+    <!-- SEO metadata - compact version for faster parsing -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LegalService",
+        "name": "Pearson Specter Law Firm",
+        "image": "https://pearsonspecter.law/logo.svg",
+        "url": "https://pearsonspecter.law",
+        "telephone": "+1-800-123-4567",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "601 E 57th St",
+          "addressLocality": "New York",
+          "addressRegion": "NY",
+          "postalCode": "10022",
+          "addressCountry": "US"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 40.7605,
+          "longitude": -73.9695
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "17:00"
+        },
+        "sameAs": [
+          "https://www.facebook.com/pearsonspecter",
+          "https://www.linkedin.com/company/pearson-specter",
+          "https://twitter.com/pearsonspecter"
+        ],
+        "priceRange": "$$$"
+      }
+    </script>
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Pearson Specter | Top Corporate Law Firm"
+    />
+    <meta
+      property="og:description"
+      content="Trusted legal representation for corporate law, personal injury, family law, and estate planning."
+    />
+    <meta property="og:url" content="https://pearsonspecter.law" />
+    <meta property="og:site_name" content="Pearson Specter Law" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Pearson Specter | Top Corporate Law Firm"
+    />
+    <meta
+      name="twitter:description"
+      content="Trusted legal representation for corporate law, personal injury, family law, and estate planning."
+    />
+
+    <!-- Favicon - optimized -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Mobile theme -->
+    <meta name="theme-color" content="#0f2a53" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <!-- Advanced Cache control -->
+    <meta
+      http-equiv="Cache-Control"
+      content="max-age=86400, public, immutable"
+    />
+
+    <!-- Enhanced Performance Metrics -->
+    <script>
+      // Setup performance monitoring initially
+      window.perfMetrics = {
+        navigationStart: performance.now(),
+        fcpTime: 0,
+        lcpTime: 0,
+        loadTime: 0,
+      };
+
+      // Initialize when DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
+        // Performance monitoring - FCP & LCP measurements
+        if ("PerformanceObserver" in window) {
+          // First Contentful Paint
+          const paintObserver = new PerformanceObserver((entries) => {
+            entries.getEntries().forEach((entry) => {
+              if (entry.name === "first-contentful-paint") {
+                window.perfMetrics.fcpTime = entry.startTime;
+                console.log(
+                  `[Performance] FCP: ${Math.round(entry.startTime)}ms`
+                );
+              }
+            });
+          });
+          paintObserver.observe({ type: "paint", buffered: true });
+
+          // Largest Contentful Paint
+          const lcpObserver = new PerformanceObserver((entries) => {
+            const lastEntry = entries.getEntries().pop();
+            if (lastEntry) {
+              window.perfMetrics.lcpTime = lastEntry.startTime;
+              console.log(
+                `[Performance] LCP: ${Math.round(lastEntry.startTime)}ms`
+              );
+            }
+          });
+          lcpObserver.observe({
+            type: "largest-contentful-paint",
+            buffered: true,
+          });
+        }
+
+        // Let React handle loader removal now
+
+        // Optimize page visibility
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "hidden") {
+            document.body.classList.add("optimize-hidden");
+          } else {
+            document.body.classList.remove("optimize-hidden");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Shell structure for immediate visual feedback -->
+    <div class="shell">
+      <!-- Critical loader shown while the page loads -->
+      <div class="critical-loader">
+        <div class="critical-spinner"></div>
+      </div>
+
+      <!-- Application root -->
+      <div id="root"></div>
+    </div>
+
+    <!-- No-JavaScript fallback -->
+    <noscript>
+      <div style="padding: 20px; text-align: center">
+        <h1>Please Enable JavaScript</h1>
+        <p>This website requires JavaScript to function properly.</p>
+        <p>Contact us at: <a href="tel:+18001234567">800-123-4567</a></p>
+      </div>
+    </noscript>
+
+    <!-- Main application script - dynamically loaded -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
